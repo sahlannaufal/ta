@@ -18,6 +18,8 @@ export default class HistorysController {
         
         try {
           let location = await Location.query().where('latitude', latitude).andWhere('longitude', longitude).first()
+          
+          const result = await Database.transaction(async (trx) => {
           if (!location) {
               location = await Location.create({
               latitude: latitude,
@@ -28,7 +30,7 @@ export default class HistorysController {
               desa: desa,
               date: date,
               userId: auth?.user?.id
-            })       
+              },{client: trx})       
           }
           const history = await History.create({
             date: date,
@@ -37,7 +39,7 @@ export default class HistorysController {
             sebabKerusakan: sebabKerusakan,
             locationId: location.id,
             userId: auth?.user?.id
-          })
+          },{client: trx})
           const penanganans = await Penanganan.create({
               date: date,
               uraian: 'belum ditangani',
@@ -46,9 +48,9 @@ export default class HistorysController {
               historyId: history.id,
               isHandle: false,
               userId: auth?.user?.id
-            })
+            },{client: trx})
+          });
   
-      
           return response.json({
             message: 'success insert history'
           })

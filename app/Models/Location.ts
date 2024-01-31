@@ -2,6 +2,8 @@ import { DateTime } from 'luxon'
 import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import History from './History'
 import User from './User'
+import Photo from './Photo'
+import Video from './Video'
 
 export default class Location extends BaseModel {
   @column({ isPrimary: true })
@@ -45,4 +47,10 @@ export default class Location extends BaseModel {
 
   @hasMany(() => History)
   public histories: HasMany<typeof History>
+
+  @hasMany(() => Photo)
+  public photos: HasMany<typeof Photo>
+
+  @hasMany(() => Video)
+  public videos: HasMany<typeof Video>
 }

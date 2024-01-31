@@ -11,18 +11,18 @@ export default class LocationsController {
     }
   })
 }
-public async asdxc({request, response}:HttpContextContract){
-  const {lat, long} = request.body()
-  let locations = await Location.query().select('lat', 'long')
-  var targetPoint = turf.point([lat, long]}s
-    var points = turf.featureCollection(locations)
-    const have = turf.nearestPoint(targetPoint, points)
-    if (have) {
-      let locations = await Location.query().where('lat', have.lat).andWhere('long', have.long)
-    }
+// public async asdxc({request, response}:HttpContextContract){
+//   const {lat, long} = request.body()
+//   let locations = await Location.query().select('lat', 'long')
+//   var targetPoint = turf.point([lat, long]}s
+//     var points = turf.featureCollection(locations)
+//     const have = turf.nearestPoint(targetPoint, points)
+//     if (have) {
+//       let locations = await Location.query().where('lat', have.lat).andWhere('long', have.long)
+//     }
 
 
-}
+// }
 
   public async store({ request, response, auth}: HttpContextContract) {
     const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date} = request.body()

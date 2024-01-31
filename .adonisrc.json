@@ -26,6 +26,9 @@
   "aceProviders": [
     "@adonisjs/repl"
   ],
+  "directory":{
+    "public": "public"
+  },
   "tests": {
     "suites": [
       {

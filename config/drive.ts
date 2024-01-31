@@ -53,7 +53,7 @@ export default driveConfig({
       | files.
       |
       */
-      root: Application.tmpPath('uploads'),
+      root: Application.tmpPath("photo"),
 
       /*
       |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ export default driveConfig({
       | you are not registering routes with this prefix.
       |
       */
-      basePath: '/uploads',
+      basePath: '/photo',
     },
 
     /*
@@ -101,9 +101,21 @@ export default driveConfig({
     //   region: Env.get('S3_REGION'),
     //   bucket: Env.get('S3_BUCKET'),
     //   endpoint: Env.get('S3_ENDPOINT'),
-    //
+    
     //  // For minio to work
-    //  // forcePathStyle: true,
+    //  forcePathStyle: true,
+    // },
+    // photo: {
+    //   driver: 's3',
+    //   visibility: 'public',
+    //   key: Env.get('S3_KEY'),
+    //   secret: Env.get('S3_SECRET'),
+    //   region: Env.get('S3_REGION'),
+    //   bucket: 'photo',
+    //   endpoint: Env.get('S3_ENDPOINT'),
+
+    //   // For minio to work
+    //   forcePathStyle: true,
     // },
 
     /*

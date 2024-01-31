@@ -26,6 +26,8 @@ Route.group(() => {
     Route.post('/locationByLatLong', 'LocationsController.show')
     Route.resource('/history', 'HistorysController')
     Route.resource('/penanganan', 'PenanganansController')
+    Route.resource('/photo', 'PhotosController')
+    Route.resource('/video', 'VideosController')
 }).middleware('auth')
 
 // Route.resource('/location', 'LocationsController')
