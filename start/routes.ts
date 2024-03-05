@@ -35,3 +35,6 @@ Route.group(() => {
 // Route.resource('/penanganan', 'PenanganansController')
 Route.post('/register', 'AuthController.register')
 Route.post('/login', 'AuthController.login')
+Route.get('/find-road-damage', 'FindRoadDamagesController.index')
+Route.post('/find-road-damage', 'FindRoadDamagesController.index')
+
