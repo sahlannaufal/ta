@@ -2,6 +2,8 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import History from 'App/Models/History'
 import Location from 'App/Models/Location'
 import Penanganan from 'App/Models/Penanganan'
+import Database from '@ioc:Adonis/Lucid/Database'
+
 
 export default class HistorysController {
     public async index({ response }: HttpContextContract) {  
@@ -14,7 +16,7 @@ export default class HistorysController {
     }
 
     public async store({ request, response, auth}: HttpContextContract) {
-        const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date, macamKerusakan, perolehanData,sebabKerusakan, locationId, uraian, cacah, biaya, history_id,is_handle} = request.body()
+        const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date, panjang_kerusakan, macamKerusakan, perolehanData,sebabKerusakan, locationId, uraian, cacah, biaya, history_id,is_handle} = request.body()
         
         try {
           let location = await Location.query().where('latitude', latitude).andWhere('longitude', longitude).first()
@@ -29,6 +31,7 @@ export default class HistorysController {
               kecamatan: kecamatan,
               desa: desa,
               date: date,
+              panjang_kerusakan: panjang_kerusakan,
               userId: auth?.user?.id
               },{client: trx})       
           }
@@ -84,7 +87,6 @@ export default class HistorysController {
 
         const history = await History.query().where({
           id: id,
-          userId: auth?.user?.id
         }).firstOrFail()
         history.merge({
           date: date,
@@ -106,7 +108,6 @@ export default class HistorysController {
           const history = await History.query()
             .where({ 
               id: id,
-              userId: auth?.user?.id
             })
             .firstOrFail()
       

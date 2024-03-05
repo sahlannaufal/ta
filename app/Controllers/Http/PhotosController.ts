@@ -102,21 +102,19 @@ export default class PhotosController {
 
     public async update({ params, request, response, auth }: HttpContextContract) {
         const { id } = params;
-        const { name, photo: newPhoto, locationId } = request.body();
+        let { name, photo, locationId } = await request.body();
+        photo = request.file('photo', {
+            size: '2mb',
+            extnames: ['jpg','png','jpeg']
+        })
         try {
-    
             const existingPhoto = await Photo.query()
                 .where({
                     id: id,
-                    userId: auth?.user?.id
                 })
                 .firstOrFail();
-    
-            if (newPhoto) {
-                // await newPhoto.move(Application.tmpPath('photo'));
-    
-                // const shortenedPath = path.relative(Application.tmpPath('photo'), newPhoto.filePath);
-                const nameFile = `${string.generateRandom(32)}.${photo.subtype}`
+            if (photo !== null) {
+                const nameFile = `${string.generateRandom(32)}-updated.${photo.subtype}`
                 await photo.move(Application.tmpPath('photo'),{
                     name: nameFile
                 })
@@ -154,7 +152,6 @@ export default class PhotosController {
         const photo = await Photo.query()
             .where({
                 id: id,
-                userId: auth?.user?.id
             }).firstOrFail()
 
             await photo.delete()

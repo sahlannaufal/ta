@@ -1,0 +1,180 @@
+paths:
+  /photo:
+    get:
+      tags:
+        - Photo
+      summary: Get all photo data
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      photos:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Photo'
+
+    post:
+      tags:
+        - Photo
+      summary: Create a new photo data
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewPhoto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success insert photo data'
+
+  /photo/{id}:
+    get:
+      tags:
+        - Photo
+      summary: Get a photo data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the photo data to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Photo'
+
+    put:
+      tags:
+        - Photo
+      summary: Update a photo data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the photo data to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewPhoto'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success update photo data'
+
+    delete:
+      tags:
+        - Photo
+      summary: Delete a photo data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the photo data to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success delete photo data'
+
+components:
+  schemas:
+    Photo:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        photo:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+      required:
+        - id
+        - name
+        - photo
+        - location
+
+    NewPhoto:
+      type: object
+      properties:
+        name:
+          type: string
+        photo:
+          type: string
+          format: binary
+        latitude:
+          type: string
+        longitude:
+          type: string
+        provinsi:
+          type: string
+        kabupaten_kota:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        date:
+          type: string
+      required:
+        - name
+        - photo
+        - latitude
+        - longitude
+        - provinsi
+        - kabupaten_kota
+        - kecamatan
+        - desa
+        - date

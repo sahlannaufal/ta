@@ -1,0 +1,180 @@
+paths:
+  /video:
+    get:
+      tags:
+        - Video
+      summary: Get all video data
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      videos:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Video'
+
+    post:
+      tags:
+        - Video
+      summary: Create a new video data
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewVideo'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success insert video data'
+
+  /video/{id}:
+    get:
+      tags:
+        - Video
+      summary: Get a video data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the video data to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Video'
+
+    put:
+      tags:
+        - Video
+      summary: Update a video data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the video data to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewVideo'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success update video data'
+
+    delete:
+      tags:
+        - Video
+      summary: Delete a video data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the video data to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success delete video data'
+
+components:
+  schemas:
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+        video:
+          type: string
+        location:
+          $ref: '#/components/schemas/Location'
+      required:
+        - id
+        - description
+        - video
+        - location
+
+    NewVideo:
+      type: object
+      properties:
+        description:
+          type: string
+        video:
+          type: string
+          format: binary
+        latitude:
+          type: string
+        longitude:
+          type: string
+        provinsi:
+          type: string
+        kabupaten_kota:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        date:
+          type: string
+      required:
+        - description
+        - video
+        - latitude
+        - longitude
+        - provinsi
+        - kabupaten_kota
+        - kecamatan
+        - desa
+        - date

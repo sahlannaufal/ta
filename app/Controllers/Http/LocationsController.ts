@@ -25,7 +25,7 @@ export default class LocationsController {
 // }
 
   public async store({ request, response, auth}: HttpContextContract) {
-    const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date} = request.body()
+    const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date, panjang_kerusakan} = request.body()
     await Location.create({
       latitude: latitude,
       longitude: longitude,
@@ -34,6 +34,7 @@ export default class LocationsController {
       kecamatan: kecamatan,
       desa: desa,
       date: date,
+      panjang_kerusakan: panjang_kerusakan,
       userId: auth?.user?.id
     })
 
@@ -57,30 +58,36 @@ export default class LocationsController {
       })
   }
 
-  // public async update({ params,request,response, auth }: HttpContextContract) {
-  //   //get param
-  //   const {id} = params
+  public async update({ params,request,response, auth }: HttpContextContract) {
+    //get param
+    const {id} = params
 
-  //   //get body request
-  //   const {latitude, longitude} = request.body()
+    //get body request
+    const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date, panjang_kerusakan} = request.body()
 
-  //   //get exist location data
-  //   const location = await Location.query()
-  //     .where({ 
-  //       id: id
-  //     })
-  //     .firstOrFail()
+    //get exist location data
+    const location = await Location.query()
+      .where({ 
+        id: id
+      })
+      .firstOrFail()
 
-  //     //update query
-  //     location.merge({
-  //       latitude: latitude,
-  //       longitude: longitude
-  //     }).save()
+      //update query
+      location.merge({
+        latitude: latitude,
+        longitude: longitude,
+        provinsi: provinsi,
+        kabupaten_kota: kabupaten_kota,
+        kecamatan: kecamatan,
+        desa: desa,
+        date: date,
+        panjang_kerusakan: panjang_kerusakan,
+      }).save()
 
-  //     return response.json({
-  //       message: 'Success update data'
-  //     })
-  // }
+      return response.json({
+        message: 'Success update data'
+      })
+  }
 
   public async destroy({ params, response, auth}: HttpContextContract) {
     //get param
@@ -90,7 +97,6 @@ export default class LocationsController {
     const location = await Location.query()
       .where({ 
         id: id,
-        userId: auth?.user?.id
       })
       .firstOrFail()
 

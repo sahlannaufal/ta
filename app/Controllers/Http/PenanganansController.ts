@@ -49,16 +49,16 @@ export default class PenanganansController {
         const {id} = params
     
         //get body request
-        const { uraian, cacah, biaya, isHandle } = request.body()
+        const { date, uraian, cacah, biaya, isHandle } = request.body()
     
         //get exist location data
         const penanganan = await Penanganan.query().where({
           id: id,
-          userId: auth?.user?.id
         }).firstOrFail()
     
           //update query
           penanganan.merge({
+            date: date,
             uraian: uraian,
             cacah: cacah,
             biaya: biaya,
@@ -77,7 +77,6 @@ export default class PenanganansController {
         //get exist location data
         const penanganan = await Penanganan.query().where({
           id: id,
-          userId: auth?.user?.id
         }).firstOrFail()
     
         //delete query

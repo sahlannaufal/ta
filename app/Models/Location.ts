@@ -33,6 +33,9 @@ export default class Location extends BaseModel {
   @column()
   public date: DateTime
 
+  @column()
+  public panjang_kerusakan: string
+
   @column({ serializeAs: 'geom' })
   public geom: string
 

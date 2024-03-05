@@ -1,0 +1,73 @@
+paths:
+  /user:
+    get:
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      summary: get all users
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: email
+          in: query
+          schema:
+            type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/getAllUsers'
+        401:
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/loginUnauthorized'
+definitions:
+  getAllUsers:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: true
+      status:
+        type: integer
+        example: 200
+      data:
+        type: array
+        items:
+          data:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: 'username'
+            email:
+              type: string
+              example: 'username@gmail.com'
+            created_at:
+              type: string
+              example: '2023-11-02T22:12:40.739+07:00'
+            updated_at:
+              type: string
+              example: '2023-11-02T22:12:40.739+07:00'
+  loginUnauthorized:
+    type: object
+    properties:
+      success:
+        type: boolean
+        example: false
+      status:
+        type: integer
+        example: 401
+      errors:
+        type: string
+        example: 'Must Login'

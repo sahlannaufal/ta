@@ -1,0 +1,179 @@
+paths:
+  /penanganan:
+    get:
+      tags:
+        - Penanganan
+      summary: Get all penanganan data
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      penanganans:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Penanganan'
+
+    post:
+      tags:
+        - Penanganan
+      summary: Create a new penanganan data
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPenanganan'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success insert penanganan data'
+
+  /penanganan/{id}:
+    get:
+      tags:
+        - Penanganan
+      summary: Get a penanganan data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the penanganan data to get
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Penanganan'
+
+    put:
+      tags:
+        - Penanganan
+      summary: Update a penanganan data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the penanganan data to update
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewPenanganan'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success update penanganan data'
+
+    delete:
+      tags:
+        - Penanganan
+      summary: Delete a penanganan data by ID
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID of the penanganan data to delete
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Success delete penanganan data'
+
+components:
+  schemas:
+    Penanganan:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+        uraian:
+          type: string
+        cacah:
+          type: string
+        biaya:
+          type: string
+        isHandle:
+          type: boolean
+        history:
+          $ref: '#/components/schemas/History'
+      required:
+        - id
+        - date
+        - uraian
+        - cacah
+        - biaya
+        - isHandle
+        - history
+
+    NewPenanganan:
+      type: object
+      properties:
+        date:
+          type: string
+        uraian:
+          type: string
+        cacah:
+          type: string
+        biaya:
+          type: string
+        historyId:
+          type: integer
+        isHandle:
+          type: boolean
+      required:
+        - date
+        - uraian
+        - cacah
+        - biaya
+        - historyId
+        - isHandle

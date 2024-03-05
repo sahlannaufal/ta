@@ -14,11 +14,9 @@ export default class extends BaseSchema {
       table.string('kecamatan').notNullable()
       table.string('desa').notNullable()
       table.date('date').notNullable()
+      table.string('panjang_kerusakan').nullable()
       table.specificType('geom', 'geometry(point,4326)')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

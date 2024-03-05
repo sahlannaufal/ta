@@ -1,8 +1,12 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Video from 'App/Models/Video'
 import Location from 'App/Models/Location'
+import StorePhotoValidator from 'App/Validators/StorePhotoValidator'
+import Helpers from '@ioc:Adonis/Core/Helpers';
 import Application from '@ioc:Adonis/Core/Application'
 import path from 'path';
+import Database from '@ioc:Adonis/Lucid/Database'
+import { string } from '@ioc:Adonis/Core/Helpers'
 
 export default class VideosController {
     public async index ({response}: HttpContextContract) {
@@ -38,18 +42,14 @@ export default class VideosController {
                 extnames: ['mp4', 'mov', 'avi']
             })
 
-            // await video.move(Application.tmpPath('video'))
-
-            // const shortenedPath = path.relative(Application.tmpPath('video'), video.filePath);
-
             const nameFile = `${string.generateRandom(32)}.${video.subtype}`
-                await video.move(Application.tmpPath('video'),{
+                await video.move(Application.tmpPath('photo'),{
                     name: nameFile
                 })
 
             const newVideo = await Video.create({
                 description: description,
-                video: `video/${nameFile}`,
+                video: `photo/${nameFile}`,
                 locationId: location.id,
                 userId: auth?.user?.id
             },{client: trx})
@@ -89,7 +89,6 @@ export default class VideosController {
             const existingVideo = await Video.query()
                 .where({
                     id: id,
-                    userId: auth?.user?.id
                 })
                 .firstOrFail();
     
@@ -98,17 +97,17 @@ export default class VideosController {
     
                 // const shortenedPath = path.relative(Application.tmpPath('photo'), newPhoto.filePath);
                 const nameFile = `${string.generateRandom(32)}.${video.subtype}`
-                await video.move(Application.tmpPath('video'),{
+                await video.move(Application.tmpPath('photo'),{
                     name: nameFile
                 })
 
-                existingPhoto.merge({
+                existingVideo.merge({
                     description: description,
-                    video: `video/${nameFile}`,
+                    video: `photo/${nameFile}`,
                     locationId: location.id,
                 });
             } else {
-                existingPhoto.merge({
+                existingVideo.merge({
                     description: description,
                     locationId: location.id,
                 });
@@ -117,7 +116,7 @@ export default class VideosController {
             await existingVideo.save();
     
             return response.json({
-                message: 'success update photo'
+                message: 'success update video'
             });
         } catch (error) {
             return response.status(500).json({
@@ -134,7 +133,6 @@ export default class VideosController {
         const video = await Video.query()
             .where({
                 id: id,
-                userId: auth?.user?.id
             }).firstOrFail()
 
             await video.delete()
