@@ -1,98 +1,121 @@
+openapi: 3.0.0
+info:
+  title: Auth API
+  version: 1.0.0
+  description: API for user authentication
 paths:
-  /login:
+  /register:
     post:
       tags:
         - Auth
-      summary: Login
-      produces:
-        - application/json
+      summary: Register a new user
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/definitions/loginRequest'
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
       responses:
-        200:
+        '200':
+          description: Registration successful
           content:
             application/json:
               schema:
-                $ref: '#/definitions/loginSuccess'
-        400:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                      token:
+                        type: string
+        '422':
+          description: Unprocessable Entity
           content:
             application/json:
               schema:
-                $ref: '#/definitions/loginBadRequest'
-definitions:
-  loginRequest:
-    type: object
-    properties:
-      email:
-        type: string
-        example: 'user@mail.com'
-      password:
-        type: string
-        example: 'secret'
-  loginSuccess:
-    type: object
-    properties:
-      success:
-        type: boolean
-        example: true
-      status:
-        type: integer
-        example: 200
-      data:
-        type: object
-        properties:
-          user:
-            type: object
-            properties:
-              id:
-                type: integer
-                example: 1
-              name:
-                type: string
-                example: 'username'
-              created_at:
-                type: string
-                example: '2023-11-02T22:12:40.739+07:00'
-              updated_at:
-                type: string
-                example: '2023-11-02T22:12:40.739+07:00'
-          jwt:
-            type: object
-            properties:
-              type:
-                type: string
-                example: 'barear'
-              token:
-                type: string
-                example: 'eyajksadkasndasd'
-              refreshToken:
-                type: string
-                example: 'eyeakjdnaksjdnasd'
-              expires_at:
-                type: string
-                example: '2023-11-04T10:52:09.879+07:00'
-
-  loginBadRequest:
-    type: object
-    properties:
-      success:
-        type: boolean
-        example: false
-      status:
-        type: integer
-        example: 400
-      errors:
-        type: array
-        items:
-          type: object
-          properties:
-            source:
-              type: string
-              example: 'email'
-            message:
-              type: string
-              example: 'Must Exists'
+                type: object
+                properties:
+                  message:
+                    type: string
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        $ref: '#/components/schemas/User'
+                      token:
+                        type: string
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id
+        - email
+        - created_at
+        - updated_at
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

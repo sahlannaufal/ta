@@ -2,7 +2,11 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import History from 'App/Models/History'
 import Location from 'App/Models/Location'
 import Penanganan from 'App/Models/Penanganan'
+import Photo from 'App/Models/Photo'
+import Video from 'App/Models/Video'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Application from '@ioc:Adonis/Core/Application'
+import { string } from '@ioc:Adonis/Core/Helpers'
 
 
 export default class HistorysController {
@@ -16,7 +20,7 @@ export default class HistorysController {
     }
 
     public async store({ request, response, auth}: HttpContextContract) {
-        const {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date, panjang_kerusakan, macamKerusakan, perolehanData,sebabKerusakan, locationId, uraian, cacah, biaya, history_id,is_handle} = request.body()
+        let {latitude, longitude, provinsi, kabupaten_kota, kecamatan, desa, date, panjang_kerusakan, macamKerusakan, perolehanData,sebabKerusakan, locationId, uraian, cacah, biaya, history_id,is_handle,name, photo,description,video} = request.body()
         
         try {
           let location = await Location.query().where('latitude', latitude).andWhere('longitude', longitude).first()
@@ -52,6 +56,37 @@ export default class HistorysController {
               isHandle: false,
               userId: auth?.user?.id
             },{client: trx})
+            photo = request.file('photo', {
+                size: '2mb',
+                extnames: ['jpg','png','jpeg']
+            })
+    
+            const nameFilePhoto = `${string.generateRandom(32)}.${photo.subtype}`
+            await photo.move(Application.tmpPath('photo'),{
+                name: nameFilePhoto
+            })
+            const newPhoto = await Photo.create({
+              name: name,
+              photo: `photo/${nameFilePhoto}`,
+              locationId: location.id,
+              userId: auth?.user?.id
+            },{client: trx})
+            
+            video = request.file('video', {
+                size: '10mb',
+                extnames: ['mp4', 'mov', 'avi']
+            })
+      
+            const nameFileVideo = `${string.generateRandom(32)}.${video.subtype}`
+                await video.move(Application.tmpPath('photo'),{
+                    name: nameFileVideo
+                })
+            const newVideo = await Video.create({
+              description: description,
+              video: `photo/${nameFileVideo}`,
+              locationId: location.id,
+              userId: auth?.user?.id
+          },{client: trx})
           });
   
           return response.json({

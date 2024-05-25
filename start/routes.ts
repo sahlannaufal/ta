@@ -25,11 +25,20 @@ Route.group(() => {
     Route.resource('/location', 'LocationsController')
     Route.post('/locationByLatLong', 'LocationsController.show')
     Route.resource('/history', 'HistorysController')
-    Route.resource('/penanganan', 'PenanganansController')
+    Route.resource('/handling', 'PenanganansController')
     Route.resource('/photo', 'PhotosController')
     Route.resource('/video', 'VideosController')
-}).middleware('auth')
+    // Route.resource('/location/:locationId/comments', 'CommentsController')
+    // Route.get('/locations/:locationId/comments', 'CommentsController.index')
 
+    
+}).middleware(['auth'])
+
+Route.get('/locations/:locationId/comments', 'CommentsController.index')
+  Route.post('/locations/:locationId/comments', 'CommentsController.store')
+  Route.get('/comments/:id', 'CommentsController.show')
+  Route.put('/comments/:id', 'CommentsController.update')
+  Route.delete('/comments/:id', 'CommentsController.destroy')
 // Route.resource('/location', 'LocationsController')
 // Route.resource('/history', 'HistorysController')
 // Route.resource('/penanganan', 'PenanganansController')

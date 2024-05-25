@@ -4,6 +4,7 @@ import History from './History'
 import User from './User'
 import Photo from './Photo'
 import Video from './Video'
+import Comment from './Comment'
 
 export default class Location extends BaseModel {
   @column({ isPrimary: true })
@@ -56,4 +57,7 @@ export default class Location extends BaseModel {
 
   @hasMany(() => Video)
   public videos: HasMany<typeof Video>
+
+  @hasMany(() => Comment)
+  public comments: HasMany<typeof Comment>
 }

@@ -1,0 +1,61 @@
+paths:
+  /find-road-damage:
+    get:
+      tags:
+        - Find Road Damage
+      summary: Find road damage near a location
+      parameters:
+        - in: query
+          name: latitude
+          required: true
+          description: Latitude of the location
+          schema:
+            type: number
+            format: float
+        - in: query
+          name: longitude
+          required: true
+          description: Longitude of the location
+          schema:
+            type: number
+            format: float
+        - in: query
+          name: radius
+          required: false
+          description: Radius for searching road damages (default is 100 meters)
+          schema:
+            type: number
+            format: float
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Location'
+
+components:
+  schemas:
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        latitude:
+          type: number
+          format: float
+        longitude:
+          type: number
+          format: float
+        provinsi:
+          type: string
+        kabupaten_kota:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        geom:
+          type: string

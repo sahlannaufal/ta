@@ -1,11 +1,17 @@
 paths:
-  /photo:
+  /locations/{locationId}/comments:
     get:
       tags:
-        - Photo
-      summary: Get all photo data
-      security:
-        - bearerAuth: []
+        - Comments
+      summary: Get comments for a location
+      parameters:
+        - in: path
+          name: locationId
+          required: true
+          description: ID of the location
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: OK
@@ -15,25 +21,28 @@ paths:
                 type: object
                 properties:
                   data:
-                    type: object
-                    properties:
-                      photos:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/Photo'
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
 
     post:
       tags:
-        - Photo
-      summary: Create a new photo data
-      security:
-        - bearerAuth: []
+        - Comments
+      summary: Create a new comment for a location
+      parameters:
+        - in: path
+          name: locationId
+          required: true
+          description: ID of the location
+          schema:
+            type: integer
+            format: int64
       requestBody:
         required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: '#/components/schemas/NewPhoto'
+              $ref: '#/components/schemas/NewComment'
       responses:
         '200':
           description: OK
@@ -44,20 +53,20 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Success insert photo data'
+                    example: 'success insert comment'
+                  data:
+                    $ref: '#/components/schemas/Comment'
 
-  /photo/{id}:
+  /comments/{id}:
     get:
       tags:
-        - Photo
-      summary: Get a photo data by ID
-      security:
-        - bearerAuth: []
+        - Comments
+      summary: Get a comment by ID
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the photo data to get
+          description: ID of the comment
           schema:
             type: integer
             format: int64
@@ -67,28 +76,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Photo'
+                $ref: '#/components/schemas/Comment'
 
     put:
       tags:
-        - Photo
-      summary: Update a photo data by ID
-      security:
-        - bearerAuth: []
+        - Comments
+      summary: Update a comment by ID
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the photo data to update
+          description: ID of the comment
           schema:
             type: integer
             format: int64
       requestBody:
         required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
-              $ref: '#/components/schemas/NewPhoto'
+              $ref: '#/components/schemas/UpdateComment'
       responses:
         '200':
           description: OK
@@ -99,19 +106,19 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Success update photo data'
+                    example: 'Success update data'
+                  data:
+                    $ref: '#/components/schemas/Comment'
 
     delete:
       tags:
-        - Photo
-      summary: Delete a photo data by ID
-      security:
-        - bearerAuth: []
+        - Comments
+      summary: Delete a comment by ID
       parameters:
         - in: path
           name: id
           required: true
-          description: ID of the photo data to delete
+          description: ID of the comment
           schema:
             type: integer
             format: int64
@@ -125,49 +132,44 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'Success delete photo data'
+                    example: 'Success delete data'
 
 components:
   schemas:
-    Photo:
+    Comment:
       type: object
       properties:
         id:
           type: integer
-        name:
+        location_id:
+          type: integer
+        content:
           type: string
-        photo:
+        created_at:
           type: string
-        location:
-          $ref: '#/components/schemas/Location'
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
       required:
         - id
-        - name
-        - photo
-        - location
+        - location_id
+        - content
+        - created_at
+        - updated_at
 
-    NewPhoto:
+    NewComment:
       type: object
       properties:
-        name:
+        content:
           type: string
-        photo:
+      required:
+        - content
+
+    UpdateComment:
+      type: object
+      properties:
+        content:
           type: string
-          format: binary
-        latitude:
-          type: string
-        longitude:
-          type: string
-        provinsi:
-          type: string
-        kabupaten_kota:
-          type: string
-        kecamatan:
-          type: string
-        desa:
-          type: string
-        date:
-          type: string
-        locationId:
-          type: integer
-      required: []
+      required:
+        - content

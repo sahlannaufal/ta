@@ -168,13 +168,4 @@ components:
           type: string
         date:
           type: string
-      required:
-        - description
-        - video
-        - latitude
-        - longitude
-        - provinsi
-        - kabupaten_kota
-        - kecamatan
-        - desa
-        - date
+      required: []

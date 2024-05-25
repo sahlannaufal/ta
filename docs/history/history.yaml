@@ -31,7 +31,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/NewHistory'
       responses:
@@ -146,6 +146,10 @@ components:
           $ref: '#/components/schemas/Location'
         penanganan:
           $ref: '#/components/schemas/Penanganan'
+        photo:
+          $ref: '#/components/schemas/Photo'
+        video:
+          $ref: '#/components/schemas/Video'
       required:
         - id
         - date
@@ -154,6 +158,8 @@ components:
         - sebabKerusakan
         - location
         - penanganan
+        - photo
+        - video
 
     NewHistory:
       type: object
@@ -194,6 +200,16 @@ components:
           type: integer
         isHandle:
           type: boolean
+        name:
+          type: string
+        photo:
+          type: string
+          format: binary
+        description:
+          type: string
+        video:
+          type: string
+          format: binary
       required:
         - latitude
         - longitude
@@ -207,10 +223,7 @@ components:
         - macamKerusakan
         - perolehanData
         - sebabKerusakan
-        - locationId
-        - userId
         - uraian
         - cacah
         - biaya
-        - historyId
         - isHandle
