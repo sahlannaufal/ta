@@ -30,10 +30,11 @@ Route.group(() => {
     Route.resource('/video', 'VideosController')
     // Route.resource('/location/:locationId/comments', 'CommentsController')
     // Route.get('/locations/:locationId/comments', 'CommentsController.index')
-
+    // Route.get('/users', 'UserController.index')
+    // Route.get('/users/:id', 'UserController.show')
     
-}).middleware(['auth'])
-
+}).middleware('auth')
+Route.get('/users', 'UsersController.index')
 Route.get('/locations/:locationId/comments', 'CommentsController.index')
   Route.post('/locations/:locationId/comments', 'CommentsController.store')
   Route.get('/comments/:id', 'CommentsController.show')

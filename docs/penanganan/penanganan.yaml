@@ -1,5 +1,5 @@
 paths:
-  /penanganan:
+  /handling:
     get:
       tags:
         - Penanganan
@@ -46,7 +46,7 @@ paths:
                     type: string
                     example: 'Success insert penanganan data'
 
-  /penanganan/{id}:
+  /handling/{id}:
     get:
       tags:
         - Penanganan

@@ -14,6 +14,12 @@ export default class User extends BaseModel {
 
   @column()
   public role: string
+  
+  @column()
+  public namaLengkap: string
+
+  @column()
+  public nomorTelepon: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

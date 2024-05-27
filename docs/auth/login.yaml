@@ -22,9 +22,15 @@ paths:
                 password:
                   type: string
                   format: password
+                namaLengkap:
+                  type: string
+                nomorTelepon:
+                  type: string
               required:
                 - email
                 - password
+                - namaLengkap
+                - nomorTelepon
       responses:
         '200':
           description: Registration successful
@@ -103,17 +109,26 @@ components:
           type: integer
         email:
           type: string
-        created_at:
+        role:
+          type: string
+        namaLengkap:
+          type: string
+        nomorTelepon:
+          type: string
+        createdAt:
           type: string
           format: date-time
-        updated_at:
+        updatedAt:
           type: string
           format: date-time
       required:
         - id
         - email
-        - created_at
-        - updated_at
+        - role
+        - namaLengkap
+        - nomorTelepon
+        - createdAt
+        - updatedAt
   securitySchemes:
     bearerAuth:
       type: http
