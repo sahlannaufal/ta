@@ -33,7 +33,32 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NewVideo'
+              type: object
+              properties:
+                description:
+                  type: string
+                video:
+                  type: string
+                  format: binary
+                latitude:
+                  type: string
+                longitude:
+                  type: string
+                provinsi:
+                  type: string
+                kabupaten_kota:
+                  type: string
+                kecamatan:
+                  type: string
+                desa:
+                  type: string
+                date:
+                  type: string
+              required:
+                - description
+                - video
+                - latitude
+                - longitude
       responses:
         '200':
           description: OK
@@ -88,7 +113,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NewVideo'
+              type: object
+              properties:
+                description:
+                  type: string
+                video:
+                  type: string
+                  format: binary
+                locationId:
+                  type: integer
+              required:
+                - description
+                - locationId
       responses:
         '200':
           description: OK
@@ -168,4 +204,37 @@ components:
           type: string
         date:
           type: string
-      required: []
+      required:
+        - description
+        - video
+        - latitude
+        - longitude
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        latitude:
+          type: string
+        longitude:
+          type: string
+        provinsi:
+          type: string
+        kabupaten_kota:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        date:
+          type: string
+      required:
+        - id
+        - latitude
+        - longitude
+        - provinsi
+        - kabupaten_kota
+        - kecamatan
+        - desa
+        - date

@@ -67,7 +67,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Photo'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'success'
+                  photo:
+                    $ref: '#/components/schemas/Photo'
 
     put:
       tags:
@@ -88,7 +94,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NewPhoto'
+              type: object
+              properties:
+                name:
+                  type: string
+                photo:
+                  type: string
+                  format: binary
+                locationId:
+                  type: integer
+              required:
+                - name
+                - locationId
       responses:
         '200':
           description: OK
@@ -170,4 +187,37 @@ components:
           type: string
         locationId:
           type: integer
-      required: []
+      required:
+        - name
+        - photo
+        - latitude
+        - longitude
+
+    Location:
+      type: object
+      properties:
+        id:
+          type: integer
+        latitude:
+          type: string
+        longitude:
+          type: string
+        provinsi:
+          type: string
+        kabupaten_kota:
+          type: string
+        kecamatan:
+          type: string
+        desa:
+          type: string
+        date:
+          type: string
+      required:
+        - id
+        - latitude
+        - longitude
+        - provinsi
+        - kabupaten_kota
+        - kecamatan
+        - desa
+        - date

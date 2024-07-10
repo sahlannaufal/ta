@@ -82,8 +82,11 @@ export default class VideosController {
 
     public async update({params, request, response, auth}: HttpContextContract) {
         const {id} = params
-        const {video_url, description, locationId} = request.body()
-
+        let {video, description, locationId} = await request.body()
+        video = request.file('video', {
+            size: '10mb',
+            extnames: ['mp4', 'mov', 'avi']
+        })
         try {
     
             const existingVideo = await Video.query()
@@ -92,7 +95,7 @@ export default class VideosController {
                 })
                 .firstOrFail();
     
-            if (newVideo) {
+            if (video !== null) {
                 // await newPhoto.move(Application.tmpPath('photo'));
     
                 // const shortenedPath = path.relative(Application.tmpPath('photo'), newPhoto.filePath);
@@ -104,12 +107,12 @@ export default class VideosController {
                 existingVideo.merge({
                     description: description,
                     video: `photo/${nameFile}`,
-                    locationId: location.id,
+                    locationId: locationId,
                 });
             } else {
                 existingVideo.merge({
                     description: description,
-                    locationId: location.id,
+                    locationId: locationId,
                 });
             }
     

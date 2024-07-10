@@ -88,7 +88,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewHistory'
+              $ref: '#/components/schemas/UpdateHistory'
       responses:
         '200':
           description: OK
@@ -186,18 +186,12 @@ components:
           type: string
         sebabKerusakan:
           type: string
-        locationId:
-          type: integer 
-        userId:
-          type: integer
         uraian:
           type: string
         cacah:
           type: string
         biaya:
           type: string
-        historyId:
-          type: integer
         isHandle:
           type: boolean
         name:
@@ -213,17 +207,24 @@ components:
       required:
         - latitude
         - longitude
-        - provinsi
-        - kabupaten_kota
-        - kecamatan
-        - desa
-        - date
-        - panjang_kerusakan
         - date
         - macamKerusakan
         - perolehanData
         - sebabKerusakan
-        - uraian
-        - cacah
-        - biaya
-        - isHandle
+
+    UpdateHistory:
+      type: object
+      properties:
+        date:
+          type: string
+        macamKerusakan:
+          type: string
+        perolehanData:
+          type: string
+        sebabKerusakan:
+          type: string
+      required:
+        - date
+        - macamKerusakan
+        - perolehanData
+        - sebabKerusakan

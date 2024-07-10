@@ -100,7 +100,7 @@ export default class PhotosController {
     //     })
     // }
 
-    public async update({ params, request, response, auth }: HttpContextContract) {
+    public async update({ params, request, response}: HttpContextContract) {
         const { id } = params;
         let { name, photo, locationId } = await request.body();
         photo = request.file('photo', {
@@ -146,7 +146,7 @@ export default class PhotosController {
     
 
 
-    public async destroy({ params, response, auth}: HttpContextContract) {
+    public async destroy({ params, response}: HttpContextContract) {
         const {id} = params
 
         const photo = await Photo.query()
